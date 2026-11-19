@@ -1,0 +1,6 @@
+# Finales de línea LF en todo el repo; el kit se guarda byte a byte para que SHA256SUMS siga valiendo.
+* text=auto eol=lf
+kit/** -text
+*.zip binary
+*.pdf binary
+*.png binary
