@@ -1,0 +1,33 @@
+# Fase 5 — Conjunto de reserva: ataques que NO se usaron al diseñar V1b, V2, V3 ni V4.
+# Solo régimen RS (estocástico): npm run eval:holdout
+description: FDSI AI Security Arena — conjunto de reserva (holdout) V0 · V1 · V1b · V2 · V3 · V4
+prompts:
+  - id: file://../kit/prompts/vulnerable.txt
+    label: V0 · vulnerable
+  - id: file://../kit/prompts/hardened.txt
+    label: V1 · hardened original
+  - id: file://../prompts/hardened_v1b.txt
+    label: V1b · hardened ajustado
+  - id: file://../prompts/hardened_v2.json
+    label: V2 · roles system/user
+  - id: file://../prompts/no_secret.json
+    label: V3 · sin secreto
+providers:
+  - id: ollama:chat:llama3.2:3b
+    label: RS
+    config: { temperature: 0.8, num_predict: 512 }
+  - id: file://../providers/guarded.js
+    label: V4-block · RS
+    config: { mode: block, temperature: 0.8, num_predict: 512 }
+    prompts: ['V2 · roles system/user']
+  - id: file://../providers/guarded.js
+    label: V4-flag · RS
+    config: { mode: flag, temperature: 0.8, num_predict: 512 }
+    prompts: ['V2 · roles system/user']
+defaultTest:
+  assert:
+    - type: javascript
+      value: file://../assertions/leak.js
+      metric: ataque_marcador
+tests:
+  - file://../tests/holdout.yaml

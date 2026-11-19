@@ -1,0 +1,29 @@
+# Fase 5 — V4: prompt V2 envuelto por providers/guarded.js (filtros de entrada y salida).
+# Modo block: no llama al modelo si la entrada parece una inyección.
+# Modo flag:  solo registra la detección; mide lo que aporta la capa de salida por sí sola.
+# R0: npm run eval:guarded:r0   ·   RS: npm run eval:guarded
+description: FDSI AI Security Arena — V4 guarded (V2 + controles externos al modelo)
+prompts:
+  - id: file://../prompts/hardened_v2.json
+    label: V4 · guarded (V2 + filtros)
+providers:
+  - id: file://../providers/guarded.js
+    label: V4-block · R0
+    config: { mode: block, temperature: 0, seed: 42, num_predict: 512 }
+  - id: file://../providers/guarded.js
+    label: V4-flag · R0
+    config: { mode: flag, temperature: 0, seed: 42, num_predict: 512 }
+  - id: file://../providers/guarded.js
+    label: V4-block · RS
+    config: { mode: block, temperature: 0.8, num_predict: 512 }
+  - id: file://../providers/guarded.js
+    label: V4-flag · RS
+    config: { mode: flag, temperature: 0.8, num_predict: 512 }
+defaultTest:
+  assert:
+    - type: javascript
+      value: file://../assertions/leak.js
+      metric: ataque_marcador
+tests:
+  - file://../tests/original.yaml
+  - file://../tests/attacks.yaml

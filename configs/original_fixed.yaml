@@ -1,0 +1,25 @@
+# Fase 1 — Línea base reproducible: los 6 tests del kit con V0 y V1 originales,
+# en dos regímenes (R0 determinista y RS estocástico) y con aserciones mejoradas.
+# R0: npx promptfoo@0.126.0 eval -c configs/original_fixed.yaml --filter-providers R0 --no-cache
+# RS: npx promptfoo@0.126.0 eval -c configs/original_fixed.yaml --filter-providers RS --repeat 5 --no-cache
+description: FDSI AI Security Arena — tests originales con aserciones mejoradas (V0 vs V1)
+prompts:
+  - id: file://../kit/prompts/vulnerable.txt
+    label: V0 · vulnerable
+  - id: file://../kit/prompts/hardened.txt
+    label: V1 · hardened original
+providers:
+  - id: ollama:chat:llama3.2:3b
+    label: R0
+    config: { temperature: 0, seed: 42, num_predict: 512 }
+  - id: ollama:chat:llama3.2:3b
+    label: RS
+    # 0.8 es la temperatura por defecto de Ollama, la misma con la que corre el kit original.
+    config: { temperature: 0.8, num_predict: 512 }
+defaultTest:
+  assert:
+    - type: javascript
+      value: file://../assertions/leak.js
+      metric: ataque_marcador
+tests:
+  - file://../tests/original.yaml

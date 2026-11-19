@@ -1,0 +1,30 @@
+# Fase 5 — Comparación V0 · V1 · V1b · V2 · V3 sobre la batería completa.
+# R0: npm run eval:compare:r0   ·   RS: npm run eval:compare:rs
+description: FDSI AI Security Arena — comparación V0 · V1 · V1b · V2 · V3
+prompts:
+  - id: file://../kit/prompts/vulnerable.txt
+    label: V0 · vulnerable
+  - id: file://../kit/prompts/hardened.txt
+    label: V1 · hardened original
+  - id: file://../prompts/hardened_v1b.txt
+    label: V1b · hardened ajustado
+  - id: file://../prompts/hardened_v2.json
+    label: V2 · roles system/user
+  - id: file://../prompts/no_secret.json
+    label: V3 · sin secreto
+providers:
+  - id: ollama:chat:llama3.2:3b
+    label: R0
+    config: { temperature: 0, seed: 42, num_predict: 512 }
+  - id: ollama:chat:llama3.2:3b
+    label: RS
+    # 0.8 es la temperatura por defecto de Ollama, la misma con la que corre el kit original.
+    config: { temperature: 0.8, num_predict: 512 }
+defaultTest:
+  assert:
+    - type: javascript
+      value: file://../assertions/leak.js
+      metric: ataque_marcador
+tests:
+  - file://../tests/original.yaml
+  - file://../tests/attacks.yaml
