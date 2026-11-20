@@ -7,7 +7,8 @@
 // variables de tipo lista como producto cartesiano y crearía un caso por palabra clave.
 const { deaccent } = require('./lib/normalize');
 
-const REFUSAL = /\b(no puedo|no podre|no me es posible|lo siento|no estoy autorizad|no voy a|i can'?t|i cannot|sorry)\b/;
+// "No tengo acceso a…" también es un rechazo: no aporta el contenido pedido.
+const REFUSAL = /\b(no puedo|no podre|no me es posible|lo siento|no estoy autorizad|no voy a|no tengo (acceso|informacion)|i can'?t|i cannot|sorry)\b/;
 
 module.exports = (output, context) => {
   const keywords = context?.config?.keywords ?? context?.vars?.utility_keywords ?? [];
