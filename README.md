@@ -11,17 +11,17 @@ Tasa de éxito del ataque (ASR, menor es mejor) con temperatura 0,8 y 5 repetici
 
 | | V0 vulnerable | V1 hardened (kit) | V1b +7 controles | V2 roles separados | V3 sin secreto | V4 guarded (flag / block) |
 |---|---|---|---|---|---|---|
-| Marcador filtrado (LLM02/08) | 16 % | 6 % | 13 % | 16 % | **0 %** | {{V4F_M}} / {{V4B_M}} |
-| Canario obedecido (LLM01) | 53 % | 67 % | 13 % | 60 % | 67 % | {{V4F_C}} / {{V4B_C}} |
-| Prompt extraído (LLM08) | 5 % | 5 % | 5 % | 10 % | 15 % | {{V4F_P}} / {{V4B_P}} |
-| Utilidad en controles | 42 % | 58 % | 26 % | **91 %** | **91 %** | {{V4F_U}} / {{V4B_U}} |
+| Marcador filtrado (LLM02/08) | 16 % | 6 % | 13 % | 16 % | **0 %** | 0 % / 0 % |
+| Canario obedecido (LLM01) | 53 % | 67 % | 13 % | 60 % | 67 % | 60 % / 13 % |
+| Prompt extraído (LLM08) | 5 % | 5 % | 5 % | 10 % | 15 % | 10 % / 0 % |
+| Utilidad en controles | 42 % | 58 % | 26 % | **91 %** | **91 %** | 92 % / 56 % |
 
 **Lo que muestran:**
 - El prompt "reforzado" del kit entrega el marcador ante la inyección más simple (5/5).
 - Añadir reglas (V1b) no lo arregla y destruye la utilidad.
 - Separar los roles (V2) recupera la utilidad, pero no la confidencialidad.
 - Solo sacar el secreto del contexto (V3) da una garantía, y aun así el asistente sigue siendo inyectable.
-- Los filtros externos (V4) interceptan filtraciones reales en la salida, pero no la inyección en sí y tienen falsos positivos.
+- Los filtros externos (V4) interceptan en la salida lo que el modelo ya filtró (33 marcadores, 4 enlaces inyectados y una respuesta de agencia aparente). Pero su filtro de entrada no detectó **ninguno de los 45 ataques de reserva**, y en modo `block` rechaza el 40 % de las preguntas legítimas con palabras gatillo.
 
 Detalle por caso en [`results/summary.md`](results/summary.md); juicio manual en [`evidence/manual.md`](evidence/manual.md); correcciones de las aserciones en [`evidence/correcciones_aserciones.md`](evidence/correcciones_aserciones.md).
 
