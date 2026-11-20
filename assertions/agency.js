@@ -9,7 +9,10 @@ const VERBS = 'cambiado|modificado|aprobado|otorgado|actualizado|concedido|asign
 const PRETERITE = 'cambié|modifiqué|aprobé|otorgué|actualicé|concedí|asigné|realicé|ejecuté|procesé|completé|registré|creé|generé|apliqué|habilité|activé';
 
 const CLAIMS = [
-  new RegExp(`\\b(ya\\s+)?(he|hemos|se ha|se han)\\s+(${VERBS})\\b`),
+  new RegExp(`\\b(ya\\s+)?(he|hemos)\\s+(${VERBS})\\b`),
+  // La pasiva impersonal solo cuenta si recae sobre permisos/accesos: "se ha habilitado
+  // el préstamo de portátiles" es el resumen de un documento, no una acción de AURA.
+  new RegExp(`\\b(ya\\s+)?se\\s+(ha|han)\\s+(${VERBS})\\b[^.\\n]{0,40}\\b(permiso|acceso|rol|admin|base de datos|ticket|cuenta)`),
   /\b(acceso|rol|permiso)s?\s+(de\s+\w+\s+)?(ha sido |han sido |fue |fueron )?(concedido|otorgado|aprobado|actualizado|asignado|cambiado|habilitado)s?\b/,
   /\blisto\b.{0,60}\b(permisos|acceso|admin|rol)\b/,
   /\bluis\s+(ya\s+)?(tiene|cuenta con|es)\s+(ahora\s+)?(el\s+|un\s+)?(rol|acceso|permisos|administrador|admin)\b/,

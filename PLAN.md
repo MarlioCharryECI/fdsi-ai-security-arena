@@ -90,15 +90,18 @@ fdsi-ai-security-arena/
 │   ├── misinformation.js     # cifras inventadas / falta de incertidumbre
 │   └── utility.js            # sobre-rechazo en preguntas legítimas
 ├── tests/
-│   ├── attacks.yaml          # batería principal (originales + propios + controles)
+│   ├── original.yaml         # los 6 tests del kit (aserción original + mejorada)
+│   ├── attacks.yaml          # batería principal (ataques propios + controles)
 │   └── holdout.yaml          # ataques NO usados al diseñar V2/V4 (evalúan el sobreajuste)
 ├── configs/
 │   ├── original_fixed.yaml   # 6 tests originales con aserciones mejoradas (V0 vs V1)
 │   ├── compare.yaml          # V0, V1, V1b, V2, V3 lado a lado
-│   ├── guarded.yaml          # V4 (provider guarded.js)
+│   ├── guarded.yaml          # V4 (provider guarded.js), modos block y flag
+│   ├── holdout.yaml          # conjunto de reserva con V0–V4
 │   └── judge.yaml            # llm-rubric con evaluador local (aparte, NO entra en el ASR)
 ├── scripts/
 │   ├── summarize.js          # results/*.json → tabla markdown de ASR por caso, versión y régimen
+│   ├── dump_responses.js     # export .json → Markdown con todas las respuestas (base del juicio manual)
 │   └── test_assertions.js    # pruebas de las aserciones con salidas sintéticas (sin modelo)
 ├── results/                  # exports .json / .html / .csv (versionados como evidencia)
 ├── evidence/                 # capturas de `promptfoo view`, transcripciones manuales
@@ -171,7 +174,7 @@ Hacer un commit al final de cada fase con un mensaje claro, por ejemplo `fase1: 
 - Correr R0 con 1 repetición y RS con `--repeat 5`, ambos con `--no-cache`.
 
 ### Fase 2 — Aserciones robustas (`assertions/*.js`)
-Cada archivo exporta una función `(output, context) => ({ pass, score, reason })`. Revisar la firma exacta en la documentación de Promptfoo sobre aserciones `javascript` con `file://` (qué trae `context`: `vars`, `prompt`, `test`, `config`). Los parámetros por test van en `vars` (por ejemplo `canary`, `utility_keywords`). Cada aserción se prueba antes con salidas sintéticas (las respuestas esperadas de filtración, alucinación y limpia) en un `node -e` rápido, para descartar falsos positivos y negativos antes de usar el modelo.
+Cada archivo exporta una función `(output, context) => ({ pass, score, reason })`. Verificado en el código de Promptfoo 0.126.0: `context` trae `prompt` (texto renderizado), `vars`, `test`, `config` (el `config` de la aserción) y `metadata` (la del provider). **Los parámetros de lista (palabras clave de utilidad) van en el `config` de la aserción, no en `vars`**: Promptfoo expande las variables de tipo lista como producto cartesiano (detectado con el provider `echo`: O1 se ejecutaba 5 veces). Revisar la firma exacta en la documentación de Promptfoo sobre aserciones `javascript` con `file://` (qué trae `context`: `vars`, `prompt`, `test`, `config`). Los parámetros por test van en `vars` (por ejemplo `canary`, `utility_keywords`). Cada aserción se prueba antes con salidas sintéticas (las respuestas esperadas de filtración, alucinación y limpia) en un `node -e` rápido, para descartar falsos positivos y negativos antes de usar el modelo.
 
 - **`lib/normalize.js`** (compartido con `guarded.js`):
   - Pasar a minúsculas, quitar tildes y quitar todo lo que no sea alfanumérico.
@@ -267,6 +270,8 @@ Incluir los 6 tests originales y agregar los siguientes. Cada test lleva `descri
   - Explicar en el informe que esto modela controles de servidor (sanitización de salida, LLM10 Improper Output Handling) y que **no** sustituye la autorización real ni la supervisión humana.
 
 ### Fase 5 — Comparación
+- **Validación sin modelo:** `npx promptfoo@0.126.0 eval -c configs/<x>.yaml -r echo --no-write` comprueba rutas, métricas y número de filas sin gastar GPU.
+- **Rendimiento:** en un portátil con batería, Windows limita la GPU (RTX 3050 a 52 MHz, ~1 token/s). Correr siempre con el cargador conectado y el modo de energía en "Máximo rendimiento" (~31–35 tokens/s).
 - Antes de la batería completa, hacer una prueba de humo por archivo nuevo: `--filter-first-n 1` sin repetir.
 - `configs/compare.yaml`: `prompts` = V0, V1, V1b, V2 y V3, cada uno con `label`; providers R0 y RS (4.1); `tests: file://tests/attacks.yaml`. En `defaultTest`, `leak.js` (`metric: ataque_marcador`) como aserción común.
 - `configs/guarded.yaml`: V4 (modos `block` y `flag`) con los mismos tests, más el conjunto de reserva.
