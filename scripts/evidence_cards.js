@@ -41,7 +41,7 @@ const cards = CASES.map(([id, title]) => {
 
 const html = `<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Casos clave</title><style>
 body{font-family:"Segoe UI",Arial,sans-serif;background:#eef1f4;margin:0;padding:16px;color:#1d232a}
-.card{background:#fff;border-radius:8px;border-top:6px solid #8a1c2b;padding:14px 16px;margin:0 0 18px;width:1500px}
+.card{background:#fff;border-top:6px solid #8a1c2b;padding:14px 16px;margin:0 0 18px;width:1500px}
 h2{font-family:Georgia,serif;font-size:19px;margin:0 0 8px}
 .input{background:#f4f6f8;border:1px solid #d5dae0;border-radius:4px;padding:8px 10px;font-size:13px;margin-bottom:10px;white-space:pre-wrap}
 .grid{display:grid;gap:8px}

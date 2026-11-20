@@ -38,13 +38,14 @@ tr { break-inside: avoid; }
 th, td { border: 1px solid var(--line); padding: 3.5pt 5pt; vertical-align: top; text-align: left; }
 th { background: #e9edf1; font-weight: 600; }
 tbody tr:nth-child(even) td { background: #fafbfc; }
-blockquote { margin: 8pt 0; padding: 6pt 10pt; border-left: 3px solid var(--accent); background: var(--soft); color: #333; }
-.portada { height: 255mm; display: flex; flex-direction: column; justify-content: center; break-after: page; border-left: 6px solid var(--accent); padding-left: 16mm; }
+blockquote { margin: 8pt 0; padding: 6pt 12pt; background: var(--soft); color: #333; font-style: italic; }
+.portada { height: 255mm; display: flex; flex-direction: column; justify-content: center; break-after: page; padding: 0 8mm; }
+.portada h1::before { content: ""; display: block; width: 28mm; height: 3pt; background: var(--accent); margin-bottom: 12pt; }
 .portada h1 { font-size: 34pt; margin: 0 0 10pt; border: none; }
 .portada h2 { font-size: 15pt; font-weight: normal; border: none; color: var(--muted); margin: 0 0 30pt; }
 .portada p { font-size: 11.5pt; margin: 3pt 0; }
 .salto { break-before: page; }
-.lamina { break-before: page; border: 1px solid var(--line); border-top: 8px solid var(--accent); border-radius: 6px; padding: 14mm 14mm; min-height: 118mm; margin-bottom: 8mm; }
+.lamina { break-before: page; border: 1px solid var(--line); border-top: 8px solid var(--accent); padding: 14mm 14mm; min-height: 118mm; margin-bottom: 8mm; }
 .lamina + .lamina { break-before: auto; }
 .lamina h3 { font-size: 20pt; margin-top: 0; }
 .lamina p, .lamina li { font-size: 12pt; }
