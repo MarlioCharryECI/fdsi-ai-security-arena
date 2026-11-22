@@ -1,7 +1,24 @@
+# Dependencias y caché de Promptfoo
 node_modules/
 .promptfoo/
-.DS_Store
+
+# Configuración local de editores y herramientas de desarrollo
 .idea/
-*.log
+.vscode/
+.claude/
+.impeccable/
 .playwright-mcp/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Variables de entorno
+.env
+
+# Artefactos generados
+*.log
 report/informe.html
+
+# Plan de trabajo interno (no forma parte del entregable)
+PLAN.md
