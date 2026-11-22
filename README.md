@@ -17,7 +17,7 @@ Laboratorio final de **FDSI (FDSI_4L-2602)**. Evaluación Red Team / Blue Team d
 | Tabla Caso / OWASP / Prompt / Respuesta / Resultado manual / Mitigación / Retest | Informe, Tabla II · `evidence/manual.md` |
 | Comparación antes/después con Promptfoo y juicio manual | `results/summary.md` · `results/*.json` · informe, Tabla IV |
 | Por qué otros riesgos necesitan infraestructura adicional | Informe §I |
-| Presentación breve | `report/presentacion.pptx` (9 diapositivas, ~10 min, con notas del orador) |
+| Presentación breve | `report/presentacion.pptx` (10 diapositivas, ~10 min, con notas del orador) |
 
 ## Resultados en una tabla
 

@@ -225,7 +225,7 @@ Además de los resultados de AURA, la auditoría del propio kit encontró estos 
 \end{itemize}
 
 \section{Conclusiones}
-Se completaron las cinco misiones con ataques reproducibles, clasificación OWASP 2026, mitigaciones justificadas y comparación cuantitativa con juicio manual. El prompt orienta el comportamiento típico y, bien estructurado (V2, V3), mejora la utilidad; pero la seguridad tiene que vivir donde el atacante no puede escribir: nada secreto en el contexto, autorización y control de acceso en el servidor, sanitización de la salida y revisión humana de lo que tiene impacto. El código, las configuraciones, los resultados y la evidencia completos están en el repositorio del proyecto.
+Se completaron las cinco misiones con ataques reproducibles, clasificación OWASP 2026, mitigaciones justificadas y comparación cuantitativa con juicio manual. Además de AURA, se cuestionaron los propios instrumentos de medición: el prompt ``reforzado'' del kit resultó peor que el vulnerable en lo esencial, y sus aserciones daban PASS a rechazos; nuestras aserciones también se equivocaron y sus siete correcciones quedaron documentadas; y un juez LLM de 3B demostró no ser fuente de verdad. Los resultados negativos (sin agencia ni desinformación en lo diseñado y sin ofuscación lograda) se reportan tal cual. El prompt orienta el comportamiento típico y, bien estructurado (V2, V3), mejora la utilidad; pero la seguridad tiene que vivir donde el atacante no puede escribir: nada secreto en el contexto, autorización y control de acceso en el servidor, sanitización de la salida y revisión humana de lo que tiene impacto. El código, las configuraciones, los resultados y la evidencia completos están en el repositorio del proyecto.
 
 \begin{thebibliography}{9}
 
