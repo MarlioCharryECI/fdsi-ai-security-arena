@@ -3,21 +3,21 @@
 Laboratorio final de **FDSI (FDSI_4L-2602)**. Evaluación Red Team / Blue Team del asistente académico ficticio **AURA** (Llama 3.2 3B en Ollama) con **Promptfoo**: se atacan cuatro familias de riesgo del OWASP Top 10 para aplicaciones LLM 2026, se aplican defensas en cuatro capas y se mide su efecto antes y después con aserciones deterministas, repeticiones y juicio manual.
 
 **Autores:** Marlio José Charry Espitia · David Alejandro Patacon Henao
-**Informe:** [`report/informe.pdf`](report/informe.pdf) · resultados: [`results/summary.md`](results/summary.md)
+**Informe (formato IEEE):** [`report/informe.pdf`](report/informe.pdf) · **Presentación:** [`report/presentacion.pptx`](report/presentacion.pptx) ([PDF](report/presentacion.pdf)) · **Resultados:** [`results/summary.md`](results/summary.md)
 
 ## Correspondencia con el enunciado del laboratorio
 
 | Lo que pide `kit/README.md` | Dónde está |
 |---|---|
-| Misión 1 · Prompt injection (LLM01), mínimo 2 variantes | `tests/attacks.yaml` (M1-a … M1-e) · informe §6.2 |
-| Misión 2 · Divulgación / contexto oculto (LLM02/LLM08), filtración frente a alucinación | M2-a … M2-e · informe §6.3 |
-| Misión 3 · Inyección indirecta (LLM01) | M3-a … M3-d · informe §6.4 |
-| Misión 4 · Agencia y desinformación (LLM03/LLM07) | M4-a … M4-d · informe §6.5 |
-| Misión 5 · Ajustar al menos 2 controles de `hardened.txt`, repetir y discutir | `prompts/hardened_v1b.txt` (7 controles) + V2, V3, V4 · informe §8 y §9 |
-| Tabla Caso / OWASP / Prompt / Respuesta / Resultado manual / Mitigación / Retest | Informe §6.1 · `evidence/manual.md` |
-| Comparación antes/después con Promptfoo y juicio manual | `results/summary.md` · `results/*.json` · informe §5 |
-| Por qué otros riesgos necesitan infraestructura adicional | Informe §2 |
-| Presentación breve | Informe, anexo A (5 láminas) |
+| Misión 1 · Prompt injection (LLM01), mínimo 2 variantes | `tests/attacks.yaml` (M1-a … M1-e) · informe §III-A |
+| Misión 2 · Divulgación / contexto oculto (LLM02/LLM08), filtración frente a alucinación | M2-a … M2-e · informe §III-B |
+| Misión 3 · Inyección indirecta (LLM01) | M3-a … M3-d · informe §III-C |
+| Misión 4 · Agencia y desinformación (LLM03/LLM07) | M4-a … M4-d · informe §III-D |
+| Misión 5 · Ajustar al menos 2 controles de `hardened.txt`, repetir y discutir | `prompts/hardened_v1b.txt` (7 controles) + V2, V3, V4 · informe §IV |
+| Tabla Caso / OWASP / Prompt / Respuesta / Resultado manual / Mitigación / Retest | Informe, Tabla II · `evidence/manual.md` |
+| Comparación antes/después con Promptfoo y juicio manual | `results/summary.md` · `results/*.json` · informe, Tabla IV |
+| Por qué otros riesgos necesitan infraestructura adicional | Informe §I |
+| Presentación breve | `report/presentacion.pptx` (9 diapositivas, ~10 min, con notas del orador) |
 
 ## Resultados en una tabla
 
@@ -50,10 +50,10 @@ assertions/          Detectores: filtración ofuscada, extracción del prompt, c
 tests/               original.yaml (6 del kit) · attacks.yaml (24 propios) · holdout.yaml (9 de reserva)
 configs/             original_fixed · compare (V0–V3) · guarded (V4) · holdout · judge
 scripts/             summarize.js (ASR) · regrade.js (re-evaluación sin modelo) · dump_responses.js
-                     (juicio manual) · evidence_cards.js · build_pdf.js · run_evals.js · test_assertions.js
+                     (juicio manual) · evidence_cards.js · run_evals.js · test_assertions.js
 results/             Exports de Promptfoo (.json/.html/.csv), summary.md y run.log
 evidence/            Respuestas completas, juicio manual y capturas del visor
-report/              informe.md (fuente) e informe.pdf (entregable)
+report/              informe.pdf (IEEE) · latex/ (fuente) · informe_latex.zip · presentacion.pptx/.pdf
 ```
 
 ## Versiones comparadas
@@ -84,13 +84,20 @@ npm run eval:holdout        # conjunto de reserva
 npm run eval:judge          # juez LLM complementario
 node scripts/regrade.js results/*_r0.json results/*_rs.json results/holdout.json   # aserciones vigentes
 node scripts/summarize.js results/compare_r0.json results/compare_rs.json results/guarded_r0.json results/guarded_rs.json results/holdout.json
-node scripts/build_pdf.js   # report/informe.md → report/informe.pdf (Edge o Chrome sin interfaz)
 npm run view                # visor de Promptfoo
 ```
 
 Los `.json` de `results/` están re-evaluados con la versión final de las aserciones (ver `evidence/correcciones_aserciones.md`); los `.html` y `.csv` muestran el veredicto original de cada corrida.
 
 Promptfoo está fijado en la versión 0.126.0 (`npx promptfoo@0.126.0`). En un portátil, conecta el cargador y usa el modo de energía "Máximo rendimiento": con batería, Windows limita la GPU y la generación cae a ~1 token/s.
+
+## Compilar el informe (LaTeX, IEEEtran)
+
+El informe está en `report/latex/main.tex` (clase `IEEEtran`, en español). `report/informe_latex.zip` contiene el mismo proyecto listo para subir a Overleaf. Para compilarlo localmente con Docker:
+
+```bash
+docker run --rm -v "$PWD/report/latex:/work" -w /work texlive/texlive:latest-medium latexmk -pdf main.tex
+```
 
 ## Ética
 
