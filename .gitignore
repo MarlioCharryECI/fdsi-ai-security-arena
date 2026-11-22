@@ -22,3 +22,11 @@ report/informe.html
 
 # Plan de trabajo interno (no forma parte del entregable)
 PLAN.md
+
+# Auxiliares de LaTeX (el PDF final se copia a report/informe.pdf)
+report/latex/*.aux
+report/latex/*.fls
+report/latex/*.fdb_latexmk
+report/latex/*.out
+report/latex/*.synctex.gz
+report/latex/main.pdf

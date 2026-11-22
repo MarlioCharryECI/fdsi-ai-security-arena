@@ -1,0 +1,12 @@
+Informe IEEE — AI Security Arena (FDSI_4L-2602)
+Autores: Marlio José Charry Espitia, David Alejandro Patacon Henao
+
+Contenido:
+  main.tex       Fuente del informe (clase IEEEtran, en español)
+  IEEEtran.cls   Clase IEEE (v1.8b, CTAN), incluida para que compile en cualquier instalación
+  figuras/       Tarjetas de evidencia (casos O2, M3-c y M1-d)
+
+Compilar:
+  Overleaf: subir este ZIP como "New Project > Upload Project" y compilar con pdfLaTeX.
+  Local:    latexmk -pdf main.tex     (o pdflatex main.tex dos veces)
+  Docker:   docker run --rm -v "$PWD:/work" -w /work texlive/texlive:latest-medium latexmk -pdf main.tex
